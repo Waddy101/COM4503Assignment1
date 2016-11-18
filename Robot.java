@@ -25,64 +25,142 @@ public class Robot {
 		gl.glPushMatrix();
 			//Robot Body
       		glut.glutSolidSphere(1.0f, 20, 20);
+
+      		gl.glPushMatrix();
+      			//Robot Eyes
+      			gl.glPushMatrix();
+      				gl.glRotated(30,1.0,1.0,0.0);
+	      			gl.glTranslated(0.0f,0.f,-1.0f);
+	      			glut.glutSolidSphere(0.2f, 20, 20);
+      			gl.glPopMatrix();
+      			gl.glPushMatrix();
+      				gl.glRotated(-30,-1.0,1.0,0.0);
+      				gl.glTranslated(0.0f,0.0f,-1.0f);
+	      			glut.glutSolidSphere(0.2f, 20, 20);
+      			gl.glPopMatrix();
+      		gl.glPopMatrix();
+
 			gl.glPushMatrix();
 				//Upper Arm
+				gl.glTranslated(0.9f, 0.0f, 0.0f);
 				gl.glRotated(45.0,0.0,1.0,0.0);
-				gl.glTranslated(1.9f, 0.0f, 0.0f);
-				gl.glScaled(1.0, 0.4, 0.4);
-				glut.glutSolidSphere(1.0f, 20, 20);
+				gl.glTranslated(1.0f, 0.0f, 0.0f);
+				gl.glPushMatrix();
+						gl.glScaled(1.0, 0.4, 0.4);
+						glut.glutSolidSphere(1.0f, 20, 20);
+				gl.glPopMatrix();
 				gl.glPushMatrix();
 					//Lower Arm
 					gl.glTranslated(0.9f, 0.0f, 0.0f);
 					gl.glRotated(60.0,0.0,1.0,0.0);
 					gl.glTranslated(1.0f, 0.0f,0.0f);
-					gl.glScaled(1.0, 0.4, 0.4);
-					glut.glutSolidSphere(1.0f, 20, 20);
+					gl.glPushMatrix();
+						gl.glScaled(1.0, 0.4, 0.4);
+						glut.glutSolidSphere(1.0f, 20, 20);
+					gl.glPopMatrix();
 
 					gl.glPushMatrix();
 						//Hand
+						gl.glTranslated(1.0f, 0.0f, 0.0f);
+						glut.glutSolidSphere(0.2f, 20, 20);
 						gl.glPushMatrix();
 							//Finger
+							gl.glRotated(30,0.0,1.0,0.0);
+							gl.glTranslated(0.2f, 0.0f, 0.0f);
+							gl.glPushMatrix();
+								gl.glScaled(1.0, 0.2, 0.2);
+								glut.glutSolidSphere(0.2f, 20, 20);
+							gl.glPopMatrix();
 						gl.glPopMatrix();
 						gl.glPushMatrix();
 							//Finger
+							gl.glRotated(-30,0.0,1.0,0.0);
+							gl.glTranslated(0.2f, 0.0f, 0.0f);
+							gl.glPushMatrix();
+								gl.glScaled(1.0, 0.2, 0.2);
+								glut.glutSolidSphere(0.2f, 20, 20);
+							gl.glPopMatrix();
 						gl.glPopMatrix();
 						gl.glPushMatrix();
 							//Finger
+							gl.glRotated(30,0.0,0.0,1.0);
+							gl.glTranslated(0.2f, 0.0f, 0.0f);
+							gl.glPushMatrix();
+								gl.glScaled(1.0, 0.2, 0.2);
+								glut.glutSolidSphere(0.2f, 20, 20);
+							gl.glPopMatrix();
 						gl.glPopMatrix();
 						gl.glPushMatrix();
 							//Finger
+							gl.glRotated(-30,0.0,0.0,1.0);
+							gl.glTranslated(0.2f, 0.0f, 0.0f);
+							gl.glPushMatrix();
+								gl.glScaled(1.0, 0.2, 0.2);
+								glut.glutSolidSphere(0.2f, 20, 20);
+							gl.glPopMatrix();
 						gl.glPopMatrix();
 					gl.glPopMatrix();
 				gl.glPopMatrix();
 			gl.glPopMatrix();
 			gl.glPushMatrix();
 				//Upper Arm
+				gl.glTranslated(-0.9f, 0.0f, 0.0f);
 				gl.glRotated(-45.0,0.0,1.0,0.0);
-				gl.glTranslated(-1.9f, 0.0f, 0.0f);
-				gl.glScaled(1.0, 0.4, 0.4);
-				glut.glutSolidSphere(1.0f, 20, 20);
+				gl.glTranslated(-1.0f, 0.0f, 0.0f);
+				gl.glPushMatrix();
+						gl.glScaled(1.0, 0.4, 0.4);
+						glut.glutSolidSphere(1.0f, 20, 20);
+				gl.glPopMatrix();
 
 				gl.glPushMatrix();
 
 					gl.glTranslated(-0.9f, 0.0f, 0.0f);
 					gl.glRotated(-60.0,0.0,1.0,0.0);
 					gl.glTranslated(-1.0f, 0.0f,0.0f);
-					gl.glScaled(1.0, 0.4, 0.4);
-					glut.glutSolidSphere(1.0f, 20, 20);
+					gl.glPushMatrix();
+						gl.glScaled(1.0, 0.4, 0.4);
+						glut.glutSolidSphere(1.0f, 20, 20);
+					gl.glPopMatrix();
 					gl.glPushMatrix();
 						//Hand
+						gl.glTranslated(-1.0f, 0.0f, 0.0f);
+						glut.glutSolidSphere(0.2f, 20, 20);
+
 						gl.glPushMatrix();
 							//Finger
+							gl.glRotated(30,0.0,1.0,0.0);
+							gl.glTranslated(-0.2f, 0.0f, 0.0f);
+							gl.glPushMatrix();
+								gl.glScaled(1.0, 0.2, 0.2);
+								glut.glutSolidSphere(0.2f, 20, 20);
+							gl.glPopMatrix();
 						gl.glPopMatrix();
 						gl.glPushMatrix();
 							//Finger
+							gl.glRotated(-30,0.0,1.0,0.0);
+							gl.glTranslated(-0.2f, 0.0f, 0.0f);
+							gl.glPushMatrix();
+								gl.glScaled(1.0, 0.2, 0.2);
+								glut.glutSolidSphere(0.2f, 20, 20);
+							gl.glPopMatrix();
 						gl.glPopMatrix();
 						gl.glPushMatrix();
 							//Finger
+							gl.glRotated(30,0.0,0.0,1.0);
+							gl.glTranslated(-0.2f, 0.0f, 0.0f);
+							gl.glPushMatrix();
+								gl.glScaled(1.0, 0.2, 0.2);
+								glut.glutSolidSphere(0.2f, 20, 20);
+							gl.glPopMatrix();
 						gl.glPopMatrix();
 						gl.glPushMatrix();
 							//Finger
+							gl.glRotated(-30,0.0,0.0,1.0);
+							gl.glTranslated(-0.2f, 0.0f, 0.0f);
+							gl.glPushMatrix();
+								gl.glScaled(1.0, 0.2, 0.2);
+								glut.glutSolidSphere(0.2f, 20, 20);
+							gl.glPopMatrix();
 						gl.glPopMatrix();
 					gl.glPopMatrix();
 				gl.glPopMatrix();

@@ -49,7 +49,6 @@ public class Scene {
 	    gl.glClear(GL2.GL_COLOR_BUFFER_BIT|GL2.GL_DEPTH_BUFFER_BIT);
 	    gl.glLoadIdentity();
 	    camera.view(glu);
-	    System.out.println("Drawing teh robot");
 	    robot.drawRobot(gl);
 
 	    //DisplayRoom
