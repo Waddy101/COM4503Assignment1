@@ -13,7 +13,7 @@ public class Room {
 
 	}
 
-	public drawRoom() {
+	public void drawRoom() {
 		
 	}
 }
