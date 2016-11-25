@@ -1,8 +1,9 @@
 /**
- * A class for a light.
+ * A class for a camera.
+ * The camera always remains 'upright' with respect to the world y axis. 
  *
  * @author    Dr Steve Maddock
- * @version   1.0 (26/07/2013)
+ * @version   1.1 (23/10/2015)
  */
 
 import com.jogamp.opengl.glu.GLU;
@@ -21,34 +22,81 @@ public class Camera {
   
   /**
    * Constructor.
-   */
+   * @param theta anticlockwise rotation around y axis starting at x axis and rotating 'the long way' round to the z axis
+   * @param phi inclination from the gorund plane
+   * @param radius distance from world origin to camera postion
+   */ 
   public Camera(double theta, double phi, double radius) {
     this.theta = theta;
-	  this.phi = phi;
-	  this.radius = radius;
-	  calcEyePosition();
+    this.phi = phi;
+    this.radius = radius;
+    calcEyePosition();
   }    
 
+  /**
+   * Increment the values of theta and phi which control the camera position on a virtual sphere centred on the world origin
+   * 
+   * @param thetaInc Increment for theta
+   * @param phiInc Increment for phi
+   */  
   public void updateThetaPhi(double thetaInc, double phiInc) {
     theta += thetaInc;
-	phi += phiInc;
-	calcEyePosition();
+    phi += phiInc;
+    calcEyePosition();
   }
-  
+
+  /**
+   * Increment the value of the radius which controls the distance of the camera from the world origin
+   * 
+   * @param radisInc Increment for radius
+   */    
   public void updateRadius(double radiusInc) {
     radius += radiusInc;
-	  calcEyePosition();
+    calcEyePosition();
   }
 
+  /**
+   * Gets the current world x position of the camera
+   * 
+   * @return  World x position of the camera
+   */ 
   public double getEyeX() { return eye[0]; }
+
+  /**
+   * Gets the current world y position of the camera
+   * 
+   * @return  World y position of the camera
+   */ 
   public double getEyeY() { return eye[1]; }
+
+  /**
+   * Gets the current world z position of the camera
+   * 
+   * @return  World z position of the camera
+   */ 
   public double getEyeZ() { return eye[2]; }
 
+  /**
+   * Gets the current x component of the camera's up vector
+   * 
+   * @return  World x position of the camera
+   */ 
   public double getUpVecX() { return upvec[0]; }
+
+  /**
+   * Gets the current y component of the camera's up vector
+   * 
+   * @return  World y position of the camera
+   */ 
   public double getUpVecY() { return upvec[1]; }
+
+  /**
+   * Gets the current z component of the camera's up vector
+   * 
+   * @return  World z position of the camera
+   */ 
   public double getUpVecZ() { return upvec[2]; }
 
-  
   private void calcEyePosition() {
     double cy, cz, sy, sz;
     cy = Math.cos(theta);
@@ -72,19 +120,32 @@ public class Camera {
       upvec[2]=-upvec[2];
     }
   }
-  
+
+  /**
+   * Use the GLU object and the method gluLookAt to set the OpenGL camera postion and direction
+   * 
+   * @param glu The GLU object
+   */   
   public void view(GLU glu) {
     glu.gluLookAt(getEyeX(), getEyeY(), getEyeZ(),
-	                0.0f, 0.0f, 0.0f, 
-		              getUpVecX(), getUpVecY(), getUpVecZ());
+	          0.0f, 0.0f, 0.0f, 
+		  getUpVecX(), getUpVecY(), getUpVecZ());
   }
-  
+
+  /**
+   * Standard use of toString method
+   * 
+   * @return A string containing the camera position in world space
+   */      
   public String toString() {
     return "["+eye[0]+", "+eye[1]+", "+eye[2]+"]";
   }
 
+  /**
+   * Test harness
+   */
   public static void main(String[] args) {
     Camera camera = new Camera(Math.toRadians(-45), Math.toRadians(30), 8.0f);
-	  System.out.println(camera);
+    System.out.println(camera);
   }
 }

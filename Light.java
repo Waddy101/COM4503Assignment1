@@ -5,7 +5,7 @@
  * Floats are fine for the accuracy required.
  *
  * @author    Dr Steve Maddock
- * @version   1.0 (26/07/2013)
+ * @version   1.1 (23/10/2015)
  */
  
 import com.jogamp.opengl.*;
@@ -15,14 +15,12 @@ public class Light implements Cloneable {
 
   public static final float[] DEFAULT_POSITION = {4.0f,3.0f,0.0f,1.0f};
   // (x,y,z,w) position of light.
-  // If w is 0, then it is a directional light (at infinite distance in the given vector direction).
-  // If w is 1, then it is a positional light (at the given position in the scene, and emitting in all directions).
+  // If w is 0, then it is a directional light
+  // (at infinite distance in the given vector direction).
+  // If w is 1, then it is a positional light
+  // (at the given position in the scene, and emitting in all directions).
   public static final float[] WHITE_LIGHT = {1.0f,1.0f,1.0f};
-  public static final float[] DEFAULT_AMBIENT = {0.0f,0.0f,0.0f}; 
-  // default ambient is 0,0,0
-  // If it is 0.1,0.1,0.1, then a spotlight effect will be added to the ambient material value for any object,
-  // which can result in the spotlight appearing on polygons that are pointing away from the spotlight,
-  // which is not desired.
+  public static final float[] DEFAULT_AMBIENT = {0.1f,0.1f,0.1f};
   
   private int index;
   private float[] position;
@@ -30,22 +28,41 @@ public class Light implements Cloneable {
   private float[] diffuse;
   private float[] specular;
   private boolean switchedOn;
-  
+
   private boolean spotlight = false;
   private float[] direction;
   private float angle;
-
+  
   /**
-   * Constructors
+   * Constructor.
+   * Index should be in range GL2.GL_LIGHT0 to GL2.GL_LIGHT8, but not currently checked. 
+   * All values set to default.
+   * @param i Index value for specific OpenGL light. 
    */
   public Light(int i) {
     this(i, DEFAULT_POSITION, DEFAULT_AMBIENT, WHITE_LIGHT, WHITE_LIGHT, true);
   }    
-  
+
+  /**
+   * Constructor. All values set to default except position.
+   * Index should be in range GL2.GL_LIGHT0 to GL2.GL_LIGHT8, but not currently checked.
+   * @param i Index value for specific OpenGL light. 
+   * @param position Position of the light source 
+   */
   public Light(int i, float[] position) {
     this(i, position, DEFAULT_AMBIENT, WHITE_LIGHT, WHITE_LIGHT, true);
   }
-
+  
+  /**
+   * Constructor.
+   * Index should be in range GL2.GL_LIGHT0 to GL2.GL_LIGHT8, but not currently checked.
+   * @param i Index value for specific OpenGL light.
+   * @param position Position of the light source 
+   * @param ambient Ambient value of light source
+   * @param diffuse Diffuse value of light source
+   * @param specular Specular value of light source
+   * @param on Whether or not the light source is turned on
+   */
   public Light(int i, float[] position, float[] ambient, float[] diffuse, float[] specular, boolean on) {
     index = i;
     this.position = position.clone();
@@ -55,16 +72,23 @@ public class Light implements Cloneable {
     switchedOn = on;
   } 
 
+  /**
+   * Convert the current light object into a spotlight.
+   * A better solution would be to initialise this in the constructor, but this works ok.
+   * @param direction Direction spotlight is pointing in
+   * @param angle Angle of the cut-off. Smaller values means a tighter spotlight.
+   * Obviously, distance away from object impacts on the value this should be set to.
+   */
   public void makeSpotlight(float[] direction, float angle) {
     if (position[3]!=1) { 
-	  System.out.println("Error. Position[3] needs to be 1 for a spotlight. Will now change.");
-	  position[3]=1;
-	}
+      System.out.println("Error. Position[3] needs to be 1 for a spotlight. Will now change.");
+      position[3]=1;
+    }
     spotlight = true;
     this.direction = direction.clone();
     this.angle = angle;
   }
-    
+  
   public float[] getPosition() {
     return position.clone();
   }
@@ -97,6 +121,14 @@ public class Light implements Cloneable {
     gl.glDisable(index); 
   }
 
+  /**
+   * If the light is switched on, then call all the relavant OpenGL command to enable
+   * and set the parameters for this light.
+   * @param gl OpenGL context
+   * @param glut GLUT object
+   * @param show whether or not to show the light postion visually with a geometric object.
+   *        Typically, this will be false. When debugging a program it is useful to set this to true.
+   */
   public void use(GL2 gl, GLUT glut, boolean show) {
     if (switchedOn) {
       gl.glEnable(index); 
@@ -110,19 +142,13 @@ public class Light implements Cloneable {
         gl.glLightfv(index, GL2.GL_SPOT_DIRECTION, direction, 0);
       }
       if (show) { 
-        if (position[3] == 1) {  // Normally you wouldn't use == to compare two floats
-		                             // but in this case I know 0 and 1 are represented exactly.
-		      displayPosition(gl, glut);
-		      if (spotlight) displaySpotlight(gl, glut);
-		    }
-        else {
-		      displayDirection(gl);
-		    }
+        if (position[3] == 1) displayPosition(gl, glut);
+        else displayDirection(gl);
       }
     }
     else gl.glDisable(index);
   }
-  
+
   private void displayPosition(GL2 gl, GLUT glut) {
     float[] matAmbientDiffuse = {0.1f, 0.1f, 0.1f, 1.0f};
     float[] matSpecular = {0.0f, 0.0f, 0.0f, 0.0f};
@@ -166,13 +192,13 @@ public class Light implements Cloneable {
     double x = direction[0];
     double y = direction[1];
     double z = direction[2];
-	  double mag = Math.sqrt(x*x+y*y+z*z);
+    double mag = Math.sqrt(x*x+y*y+z*z);
     x = 0.5*x/mag;
     y = 0.5*y/mag;
     z = 0.5*z/mag;
-	  x += position[0];
-  	y += position[1];
-	  z += position[2];
+    x += position[0];
+    y += position[1];
+    z += position[2];
     gl.glColor3d(1,1,1);
     gl.glBegin(GL2.GL_LINES);
       gl.glVertex3d(position[0], position[1], position[2]);
@@ -182,7 +208,6 @@ public class Light implements Cloneable {
     gl.glEnable(GL2.GL_LIGHTING);
   }
   
- 
   public String toString() {
     return "["+position[0]+", "+position[1]+", "+position[2]+"]";
   }
