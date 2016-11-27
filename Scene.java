@@ -21,19 +21,26 @@ public class Scene {
 	private GLU glu = new GLU();
  	private GLUT glut = new GLUT();
 
-  	private final double INC_ROTATE=2.0;
-
-  	private double rotate=0.0;
   	private boolean objectsOn = true;
 
   	private int canvaswidth=0, canvasheight=0;
 
+    private final double INC_ROTATE=2.0;
+    private double rotate=0.0;
+
     private Camera camera;
     private Robot robot;
+    private Room room;
+    private Render plane;
+
+    private Light light;
 
   	public Scene(GL2 gl, Camera camera) {
+  		light = new Light(GL2.GL_LIGHT0);
+    
 	    this.camera = camera;
 	    this.robot = new Robot();
+	    this.room = new Room(gl);
     }
 
     public void setCanvasSize(int w, int h) {
@@ -41,24 +48,38 @@ public class Scene {
 	    canvasheight=h;
     }
 
+    public Light getLight() {
+    	return light;
+  	}
+
+    public void incRotate() {
+      rotate=(rotate+INC_ROTATE)%360;
+    }
+
+
     public void update() {
-    	//Code for moving the robot around
+    	incRotate();
     }
     
   	public void render(GL2 gl) {
-	    gl.glClear(GL2.GL_COLOR_BUFFER_BIT|GL2.GL_DEPTH_BUFFER_BIT);
-	    gl.glLoadIdentity();
-	    camera.view(glu);
-	    robot.drawRobot(gl);
+  	  gl.glClear(GL2.GL_COLOR_BUFFER_BIT|GL2.GL_DEPTH_BUFFER_BIT);
+  		gl.glLoadIdentity();
+  		camera.view(glu);
+  		//doLight(gl);
+  		room.doLights(gl, glut);
+      robot.doEyeLights(gl, rotate);
+  		robot.drawRobot(gl, rotate);
+  		room.createRoom(gl);
+  		room.renderRoom(gl);
+  	}
 
-	    //DisplayRoom
-	    //DrawRobot
-
+  	private void doLight(GL2 gl) {
+		gl.glPushMatrix();
+			if (light.getSwitchedOn()) {
+				light.use(gl, glut, true);
+			}
+			else light.disable(gl);
+		gl.glPopMatrix();
   	}
   
-	private void displayRoom(GL2 gl) {
-		gl.glPushMatrix();
-			//Draw Main body
-		gl.glPopMatrix();	
-	}
 }

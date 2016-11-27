@@ -17,26 +17,57 @@ public class Robot {
 	private GLU glu = new GLU();
  	private GLUT glut = new GLUT();
 	
-	public Robot() {
+	private Light leftEye, rightEye;
 
+	public Robot() {
+		float[] leftEyePos = {0.0f,0.0f,0.0f, 1};
+		float[] rightEyePos = {0.0f,0.0f,0.0f, 1};
+		leftEye = new Light(GL2.GL_LIGHT4, leftEyePos);
+		rightEye = new Light(GL2.GL_LIGHT5, rightEyePos);
+		float[] direction = {0,0,-1};
+	    leftEye.makeSpotlight(direction, 5f);
+	    rightEye.makeSpotlight(direction, 5f);
 	}
 
-	public void drawRobot(GL2 gl) {
+	public void doEyeLights(GL2 gl, double rotate) {
+		gl.glPushMatrix();
+			gl.glRotated(rotate, 0, 1, 0);
+			gl.glPushMatrix();
+				gl.glRotated(30,1.0,1.0,0.0);
+	      		gl.glTranslated(0.0f,0.f,-1.0f);
+	      		leftEye.use(gl, glut, true);
+			gl.glPopMatrix();
+			gl.glPushMatrix();
+				gl.glRotated(-30,-1.0,1.0,0.0);
+      			gl.glTranslated(0.0f,0.0f,-1.0f);
+      			rightEye.use(gl, glut, true);
+			gl.glPopMatrix();		
+		gl.glPopMatrix();
+	}
+
+	public void drawRobot(GL2 gl, double rotate) {
+		setMaterial(gl,0,0,0,0,false);
+
 		gl.glPushMatrix();
 			//Robot Body
+			//gl.glTranslated(3 * Math.sin(0.1 * rotate), 0, 3 * Math.cos(0.1 * rotate));
+			gl.glRotated(rotate, 0, 1, 0);
       		glut.glutSolidSphere(1.0f, 20, 20);
-
       		gl.glPushMatrix();
       			//Robot Eyes
       			gl.glPushMatrix();
       				gl.glRotated(30,1.0,1.0,0.0);
 	      			gl.glTranslated(0.0f,0.f,-1.0f);
+	      			setMaterial(gl,0,0,0,0,true);	      			
 	      			glut.glutSolidSphere(0.2f, 20, 20);
+	      			setMaterial(gl,0,0,0,0,false);
       			gl.glPopMatrix();
       			gl.glPushMatrix();
       				gl.glRotated(-30,-1.0,1.0,0.0);
       				gl.glTranslated(0.0f,0.0f,-1.0f);
-	      			glut.glutSolidSphere(0.2f, 20, 20);
+      				setMaterial(gl,0,0,0,0,true);
+    	      		glut.glutSolidSphere(0.2f, 20, 20);
+    	      		setMaterial(gl,0,0,0,0,false);
       			gl.glPopMatrix();
       		gl.glPopMatrix();
 
@@ -167,6 +198,28 @@ public class Robot {
 
 			gl.glPopMatrix();
 		gl.glPopMatrix();	
+	}
+
+	private void setMaterial(GL2 gl, int ambient, int specular, int shininess, int emission, boolean eyes) {
+		float[] matAmbientDiffuse;
+		float[] matSpecular;
+		float[] matShininess;
+		float[] matEmission;
+		if (!eyes) {
+			matAmbientDiffuse = new float[]{0.8f, 0.2f, 0.8f, 1.0f};
+	    	matSpecular = new float[]{0.5f,0.5f,0.5f, 1.0f};
+		    matShininess = new float[]{16.0f};
+		    matEmission = new float[]{0.0f, 0.0f, 0.0f, 1.0f};
+		} else {
+			matAmbientDiffuse = new float[]{0.1f, 0.1f, 0.1f, 1.0f};
+		    matSpecular = new float[]{0.0f, 0.0f, 0.0f, 0.0f};
+		    matShininess = new float[]{1.0f};
+		    matEmission = new float[]{0.9f, 0.9f, 0.9f, 1.0f};
+		}		
+		gl.glMaterialfv(GL2.GL_FRONT, GL2.GL_AMBIENT_AND_DIFFUSE, matAmbientDiffuse, ambient);
+		gl.glMaterialfv(GL2.GL_FRONT, GL2.GL_SPECULAR, matSpecular, specular);
+		gl.glMaterialfv(GL2.GL_FRONT, GL2.GL_SHININESS, matShininess, shininess);
+		gl.glMaterialfv(GL2.GL_FRONT, GL2.GL_EMISSION, matEmission, emission);
 	}
 
 }

@@ -140,33 +140,18 @@ public class Main extends JFrame implements GLEventListener, ActionListener, Ite
   	/* initialisation */
   	public void init (GLAutoDrawable drawable) {
 	    GL2 gl = drawable.getGL().getGL2();
-	    gl.glClearColor(0.0f, 0.0f, 0.0f, 1.0f); //black
-	    gl.glEnable(GL2.GL_DEPTH_TEST); // We want to use the z buffer so that overlapping objects are drawn correctly.
-	    gl.glEnable(GL2.GL_CULL_FACE);  // Enable the ability to discard polygons.
-	    gl.glCullFace(GL2.GL_BACK);     // State which polygons will be discarded, in this case those that
-	                                    // are facing away from the camera.
-	    gl.glShadeModel(GL2.GL_SMOOTH); // Colours computed at vertices are interpolated over the surface 
-		                                  // of a polygon.
-	    gl.glPolygonMode(GL2.GL_FRONT_AND_BACK, GL2.GL_FILL);
-		                                  // Front and back facing polygons should be filled.
-	    gl.glEnable(GL2.GL_LIGHTING);   // Could be part of lights instead but done here as a default
-										// to indicate lighting will be used.
-	    gl.glEnable(GL2.GL_LIGHT0);     // Default is to enable light 0
-	    gl.glEnable(GL2.GL_NORMALIZE);  // If enabled, normal vectors specified with glNormal 
-		                                  // are scaled to unit length after transformation.
-					                            // This is only really necessary if a scale transformation
-	                                    // is being used, so as to correct the normals, unless you 
-					                            // are prepared to do this by writing your own code.
-					                            // For rotations and translations, it is not needed.
-					                            // When turned on, it does slow rendering 
-					                            // See en.wikipedia.org/wiki/Normal_%28geometry%29#Transforming_normals
-					                            // for details of transforming normals.					
-	    double radius = 40.0;           // radius of 'camera sphere', i.e. distance from 
-		                                  // world origin
-	    double theta = Math.toRadians(-45); // theta rotates anticlockwise around y axis
-	                                    // here, 45 clockwise from x towards z axis
-	    double phi = Math.toRadians(30);// phi is inclination from ground plane
-	                                    // here, 30 degrees up from ground plane
+	    gl.glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+	    gl.glEnable(GL2.GL_DEPTH_TEST);
+	    gl.glEnable(GL2.GL_CULL_FACE);
+	    gl.glCullFace(GL2.GL_BACK);
+	    gl.glShadeModel(GL2.GL_SMOOTH);
+	    gl.glPolygonMode(GL2.GL_FRONT_AND_BACK, GL2.GL_FILL); 
+	    gl.glEnable(GL2.GL_LIGHTING);   
+	    gl.glEnable(GL2.GL_LIGHT0);    
+	    gl.glEnable(GL2.GL_NORMALIZE);  			
+	    double radius = 50.0;
+	    double theta = Math.toRadians(-45);
+	    double phi = Math.toRadians(30);
 	    camera = new Camera(theta, phi, radius);
 	    scene = new Scene(gl, camera);
   	}
