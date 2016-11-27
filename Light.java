@@ -148,7 +148,6 @@ public class Light implements Cloneable {
       gl.glLightfv(index, GL2.GL_AMBIENT, ambient, 0);
       gl.glLightfv(index, GL2.GL_DIFFUSE, diffuse, 0);
       gl.glLightfv(index, GL2.GL_SPECULAR, specular, 0);
-      System.out.println(ambient[0]  + " " + diffuse[0] + " " + specular[0]);
       if (spotlight) {
         gl.glLightf(index, GL2.GL_SPOT_CUTOFF, angle);
         gl.glLightfv(index, GL2.GL_SPOT_DIRECTION, direction, 0);

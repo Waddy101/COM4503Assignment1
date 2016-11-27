@@ -126,9 +126,9 @@ public class Main extends JFrame implements GLEventListener, ActionListener, Ite
 	    else if (e.getActionCommand().equalsIgnoreCase("pauseanim")) {
 	      setContinuousAnimation(false);
 	    }
-	    //else if (e.getActionCommand().equalsIgnoreCase("resetscene")) {
-	     // reset();
-	    //}
+	    else if (e.getActionCommand().equalsIgnoreCase("resetscene")) {
+	      reset();
+	    }
     }
 
     public void itemStateChanged(ItemEvent e) {
@@ -137,6 +137,12 @@ public class Main extends JFrame implements GLEventListener, ActionListener, Ite
   
     private void setContinuousAnimation(boolean b) {
     	continuousAnimation = b;
+    	if (b) scene.startAnimation();
+    	else scene.pauseAnimation();
+    }
+
+    private void reset() {
+    	scene.reset();
     }
 
     /*

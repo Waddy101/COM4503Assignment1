@@ -68,6 +68,7 @@ public class Room {
     	wall3.initialiseDisplayList(gl, true); 
     	wall4 = new Render(meshWall, wallTex);  
     	wall4.initialiseDisplayList(gl, true); 
+    	quadric = glu.gluNewQuadric();
 	}
 
 	public void renderRoom(GL2 gl, double rotate) {
@@ -108,21 +109,32 @@ public class Room {
 	    	gl.glTranslated(0,14.5f,7.5f);
 	    	gl.glPushMatrix();
 		    	gl.glRotated(-90, 1, 0, 0);
-		    	glut.glutSolidCone(0.8, 0.5, 10, 10);
+		    	glut.glutSolidCone(0.8, 0.3, 10, 10);
 	    	gl.glPopMatrix();
-	    	gl.glScaled(1.0, 0.05, 1.0);
-	    	glut.glutSolidSphere(0.8, 10, 10);
+	    	gl.glPushMatrix();
+		    	gl.glScaled(1.0, 0.05, 1.0);
+		    	glut.glutSolidSphere(0.8, 10, 10);
+	    	gl.glPopMatrix();
+	    	gl.glTranslated(0.0, 0.3, 0.0);
+ 	    	gl.glRotated(-90, 1, 0, 0);    	
+ 	    	glu.gluCylinder(quadric, 0.1, 0.1, 0.2, 10, 10);
 	    gl.glPopMatrix();
 	    gl.glPushMatrix();
 	    	gl.glTranslated(0,14.5f,-7.5f);
 	    	gl.glPushMatrix();
 		    	gl.glRotated(-90, 1, 0, 0);
-		    	glut.glutSolidCone(0.8, 0.5, 10, 10);
+		    	glut.glutSolidCone(0.8, 0.3, 10, 10);
 	    	gl.glPopMatrix();
-	    	gl.glScaled(1.0, 0.05, 1.0);
-	    	glut.glutSolidSphere(0.8, 10, 10);
+	    	gl.glPushMatrix();
+		    	gl.glScaled(1.0, 0.05, 1.0);
+		    	glut.glutSolidSphere(0.8, 10, 10);
+	    	gl.glPopMatrix();
+	    	gl.glTranslated(0.0, 0.3, 0.0); 
+ 	    	gl.glRotated(-90, 1, 0, 0);
+ 	    	glu.gluCylinder(quadric, 0.1, 0.1, 0.2, 10, 10);
 	    gl.glPopMatrix();
 	    gl.glPushMatrix();
+	    	//Drawing stack of cubes
 	    	gl.glTranslated(5.0, -13.0, 5.0);
 	    	glut.glutSolidCube(4.0f); 
 	    	gl.glPushMatrix();
@@ -140,12 +152,34 @@ public class Room {
 	    	gl.glPopMatrix();
 	    gl.glPopMatrix();
 	    gl.glPushMatrix();
-	    	gl.glTranslated(-5.0, 11.0, -5.0);
-	    	gl.glRotated(-45, 0, 1, 0);
-	    	glut.glutSolidTorus(1.0, 3.0, 10, 50);
+	    	//Drawing torus
+	    	gl.glTranslated(-5.0, 10.5, -5.0);
+	    	gl.glPushMatrix();
+		    	gl.glRotated(-45, 0, 1, 0);
+		    	glut.glutSolidTorus(1.0, 3.0, 10, 50);
+	    	gl.glPopMatrix();
+	    	gl.glTranslated(0.0, 3.9, 0.0);
+	    	gl.glRotated(-90, 1, 0, 0);
+ 	    	glu.gluCylinder(quadric, 0.3, 0.3, 0.6, 10, 10);
+    	gl.glPopMatrix();
+    	gl.glPushMatrix();
+    		//Drawing cylinders on the walls
+    		gl.glTranslated(-3.0, -3.0, 10.0);
+    		gl.glPushMatrix();
+    			gl.glScaled(1.0, 1.0, 0.05);
+    			glut.glutSolidSphere(1.0, 10, 10);
+    		gl.glPopMatrix();
+    		glu.gluCylinder(quadric, 1.0, 1.0, 5.0, 10, 10);
+    	gl.glPopMatrix();
+    	gl.glPushMatrix();
+    		gl.glTranslated(-3.0, -8.0, 10.0);
+    		gl.glPushMatrix();
+    			gl.glScaled(1.0, 1.0, 0.05);
+    			glut.glutSolidSphere(1.0, 10, 10);
+    		gl.glPopMatrix();
+    		glu.gluCylinder(quadric, 1.0, 1.0, 5.0, 10, 10);
     	gl.glPopMatrix();
 
-    	
 	    //Draw some objects in the room
 	    //Make a window thing
 	}

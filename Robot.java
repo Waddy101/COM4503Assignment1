@@ -29,9 +29,10 @@ public class Robot {
 	    rightEye.makeSpotlight(direction, 5f);
 	}
 
-	public void doEyeLights(GL2 gl, double rotate) {
+	public void doEyeLights(GL2 gl, double x, double y, double z, double rotateY) {
 		gl.glPushMatrix();
-			gl.glRotated(rotate, 0, 1, 0);
+			gl.glTranslated(x, y, z);
+			gl.glRotated(rotateY, 0, 1, 0);
 			gl.glPushMatrix();
 				gl.glRotated(30,1.0,1.0,0.0);
 	      		gl.glTranslated(0.0f,0.f,-1.0f);
@@ -45,12 +46,13 @@ public class Robot {
 		gl.glPopMatrix();
 	}
 
-	public void drawRobot(GL2 gl, double rotate) {
+	public void drawRobot(GL2 gl, double x, double y, double z, double rotateY) {
 		setMaterial(gl,0,0,0,0,false);
 
 		gl.glPushMatrix();
 			//Robot Body
-			gl.glRotated(rotate, 0, 1, 0);
+			gl.glTranslated(x, y, z);
+			gl.glRotated(rotateY, 0, 1, 0);
       		glut.glutSolidSphere(1.0f, 20, 20);
       		gl.glPushMatrix();
       			//Robot Eyes
