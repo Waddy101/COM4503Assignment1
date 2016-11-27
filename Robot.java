@@ -35,12 +35,12 @@ public class Robot {
 			gl.glPushMatrix();
 				gl.glRotated(30,1.0,1.0,0.0);
 	      		gl.glTranslated(0.0f,0.f,-1.0f);
-	      		leftEye.use(gl, glut, true);
+	      		leftEye.use(gl, glut, false);
 			gl.glPopMatrix();
 			gl.glPushMatrix();
 				gl.glRotated(-30,-1.0,1.0,0.0);
       			gl.glTranslated(0.0f,0.0f,-1.0f);
-      			rightEye.use(gl, glut, true);
+      			rightEye.use(gl, glut, false);
 			gl.glPopMatrix();		
 		gl.glPopMatrix();
 	}
@@ -50,7 +50,6 @@ public class Robot {
 
 		gl.glPushMatrix();
 			//Robot Body
-			//gl.glTranslated(3 * Math.sin(0.1 * rotate), 0, 3 * Math.cos(0.1 * rotate));
 			gl.glRotated(rotate, 0, 1, 0);
       		glut.glutSolidSphere(1.0f, 20, 20);
       		gl.glPushMatrix();

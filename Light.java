@@ -14,11 +14,6 @@ import com.jogamp.opengl.util.gl2.GLUT;
 public class Light implements Cloneable {
 
   public static final float[] DEFAULT_POSITION = {4.0f,3.0f,0.0f,1.0f};
-  // (x,y,z,w) position of light.
-  // If w is 0, then it is a directional light
-  // (at infinite distance in the given vector direction).
-  // If w is 1, then it is a positional light
-  // (at the given position in the scene, and emitting in all directions).
   public static final float[] WHITE_LIGHT = {1.0f,1.0f,1.0f};
   public static final float[] DEFAULT_AMBIENT = {0.1f,0.1f,0.1f};
   
@@ -100,13 +95,25 @@ public class Light implements Cloneable {
   public float[] getAmbient() {
     return ambient.clone();
   }
+
+  public void setAmbient(float[] ambient) {
+    this.ambient = ambient;
+  }
   
   public float[] getDiffuse() {
     return diffuse.clone();
   }
 
+  public void setDiffuse(float[] diffuse) {
+    this.diffuse = diffuse;
+  }
+
   public float[] getSpecular() {
     return specular.clone();
+  }
+
+  public void setSpecular(float[] specular) {
+    this.specular = specular;
   }
   
   public void setSwitchedOn(boolean on) {
@@ -141,6 +148,7 @@ public class Light implements Cloneable {
       gl.glLightfv(index, GL2.GL_AMBIENT, ambient, 0);
       gl.glLightfv(index, GL2.GL_DIFFUSE, diffuse, 0);
       gl.glLightfv(index, GL2.GL_SPECULAR, specular, 0);
+      System.out.println(ambient[0]  + " " + diffuse[0] + " " + specular[0]);
       if (spotlight) {
         gl.glLightf(index, GL2.GL_SPOT_CUTOFF, angle);
         gl.glLightfv(index, GL2.GL_SPOT_DIRECTION, direction, 0);

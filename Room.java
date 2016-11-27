@@ -20,7 +20,7 @@ import com.jogamp.opengl.util.gl2.GLUT;
 
 public class Room {
 	
-	private Mesh meshFloor, meshCeiling, meshWall1, meshWall2, meshWall3, meshWall4;
+	private Mesh meshFloor, meshCeiling, meshWall, meshWall2, meshWall3, meshWall4;
 
 	private Render floor, ceiling, wall1, wall2, wall3, wall4;
 
@@ -41,7 +41,7 @@ public class Room {
 	    spotlight2 = new Light(GL2.GL_LIGHT2, position2);
 	    float[] direction2 = {0,-1,0};
 	    spotlight2.makeSpotlight(direction2, 10f);
-	    quadric = glu.gluNewQuadric();
+	    createRoom(gl);
 	}
 
 	public void doLights(GL2 gl, GLUT glut) {
@@ -51,27 +51,26 @@ public class Room {
 
 	public void createRoom(GL2 gl) {
 		Texture floorTex = loadTexture(gl, "floor.jpg");
-		meshFloor = ProceduralMeshFactory.createPlane(30, 30, 100, 100, 1, 1);
+		meshFloor = ProceduralMeshFactory.createPlane(30, 30, 50, 50, 1, 1);
     	floor = new Render(meshFloor, floorTex); 
     	floor.initialiseDisplayList(gl, true);  
-    	meshCeiling = ProceduralMeshFactory.createPlane(30, 30, 100, 100, 1, 1);
-    	ceiling = new Render(meshCeiling);  
-    	ceiling.initialiseDisplayList(gl, false); 
-    	meshWall1 = ProceduralMeshFactory.createPlane(30, 30, 100, 100, 1, 1);
-    	wall1 = new Render(meshWall1);  
-    	wall1.initialiseDisplayList(gl, false); 
-    	meshWall2 = ProceduralMeshFactory.createPlane(30, 30, 100, 100, 1, 1);
-    	wall2 = new Render(meshWall2);  
-    	wall2.initialiseDisplayList(gl, false); 
-    	meshWall3 = ProceduralMeshFactory.createPlane(30, 30, 100, 100, 1, 1);
-    	wall3 = new Render(meshWall3);  
-    	wall3.initialiseDisplayList(gl, false); 
-    	meshWall4 = ProceduralMeshFactory.createPlane(30, 30, 100, 100, 1, 1);
-    	wall4 = new Render(meshWall4);  
-    	wall4.initialiseDisplayList(gl, false); 
+    	Texture ceilingTex = loadTexture(gl, "ceiling.jpg");
+    	meshCeiling = ProceduralMeshFactory.createPlane(30, 30, 50, 50, 1, 1);
+    	ceiling = new Render(meshCeiling, ceilingTex);  
+    	ceiling.initialiseDisplayList(gl, true);
+    	Texture wallTex = loadTexture(gl, "wall.jpg"); 
+    	meshWall = ProceduralMeshFactory.createPlane(30, 30, 50, 50, 1, 1);
+    	wall1 = new Render(meshWall, wallTex);  
+    	wall1.initialiseDisplayList(gl, true); 
+    	wall2 = new Render(meshWall, wallTex);  
+    	wall2.initialiseDisplayList(gl, true); 
+    	wall3 = new Render(meshWall, wallTex);  
+    	wall3.initialiseDisplayList(gl, true); 
+    	wall4 = new Render(meshWall, wallTex);  
+    	wall4.initialiseDisplayList(gl, true); 
 	}
 
-	public void renderRoom(GL2 gl) {
+	public void renderRoom(GL2 gl, double rotate) {
 		gl.glPushMatrix();
 			gl.glTranslated(0.0,-15.0, 0.0);
 			floor.renderDisplayList(gl);
@@ -82,16 +81,19 @@ public class Room {
 	    	ceiling.renderDisplayList(gl);			
 	    gl.glPopMatrix();
 	    gl.glPushMatrix();
+	    	gl.glRotated(-90, 1, 0, 0);
 	    	gl.glTranslated(-15.0, 0.0 ,0.0);
 	    	gl.glRotated(-90, 0.0, 0.0, 1.0);
 	    	wall1.renderDisplayList(gl);
 	    gl.glPopMatrix();
 	    gl.glPushMatrix();
+	    	gl.glRotated(180, 0, 0, 1);
 	    	gl.glTranslated(0.0,0.0,-15.0);
 	    	gl.glRotated(90, 1.0, 0.0, 0.0);
 			wall2.renderDisplayList(gl);
 	    gl.glPopMatrix();
 	    gl.glPushMatrix();
+	    	gl.glRotated(-90, 1, 0, 0);
 	    	gl.glTranslated(15.0,0.0,0.0);
 	    	gl.glRotated(90, 0.0, 0.0, 1.0);
 			wall3.renderDisplayList(gl);
@@ -106,22 +108,44 @@ public class Room {
 	    	gl.glTranslated(0,14.5f,7.5f);
 	    	gl.glPushMatrix();
 		    	gl.glRotated(-90, 1, 0, 0);
-		    	glut.glutSolidCone(0.8, 0.3, 10, 10);
+		    	glut.glutSolidCone(0.8, 0.5, 10, 10);
 	    	gl.glPopMatrix();
-	    	gl.glTranslated(0.0, 0.3, 0.0);
-	    	gl.glRotated(-90, 1, 0, 0);    	
-	    	glu.gluCylinder(quadric, 0.1, 0.1, 0.2, 10, 10);
+	    	gl.glScaled(1.0, 0.05, 1.0);
+	    	glut.glutSolidSphere(0.8, 10, 10);
 	    gl.glPopMatrix();
 	    gl.glPushMatrix();
 	    	gl.glTranslated(0,14.5f,-7.5f);
 	    	gl.glPushMatrix();
 		    	gl.glRotated(-90, 1, 0, 0);
-		    	glut.glutSolidCone(0.8, 0.3, 10, 10);
+		    	glut.glutSolidCone(0.8, 0.5, 10, 10);
 	    	gl.glPopMatrix();
-	    	gl.glTranslated(0.0, 0.3, 0.0); 
-	    	gl.glRotated(-90, 1, 0, 0);
-	    	glu.gluCylinder(quadric, 0.1, 0.1, 0.2, 10, 10);
+	    	gl.glScaled(1.0, 0.05, 1.0);
+	    	glut.glutSolidSphere(0.8, 10, 10);
 	    gl.glPopMatrix();
+	    gl.glPushMatrix();
+	    	gl.glTranslated(5.0, -13.0, 5.0);
+	    	glut.glutSolidCube(4.0f); 
+	    	gl.glPushMatrix();
+	    		gl.glTranslated(0, 4.3, 0.0);
+	    		gl.glPushMatrix();
+	    			gl.glRotated(rotate,0,1,0);
+	    			gl.glRotated(45, 0, 0 , 1);
+	    			gl.glRotated(45, 1, 0, 0);
+	    			glut.glutSolidCube(3.0f);
+	    		gl.glPopMatrix();
+	    		gl.glPushMatrix();	
+	    			gl.glTranslated(0, 3.3, 0);
+	    			glut.glutSolidCube(2.0f);
+	    		gl.glPopMatrix();
+	    	gl.glPopMatrix();
+	    gl.glPopMatrix();
+	    gl.glPushMatrix();
+	    	gl.glTranslated(-5.0, 11.0, -5.0);
+	    	gl.glRotated(-45, 0, 1, 0);
+	    	glut.glutSolidTorus(1.0, 3.0, 10, 50);
+    	gl.glPopMatrix();
+
+    	
 	    //Draw some objects in the room
 	    //Make a window thing
 	}
@@ -132,9 +156,9 @@ public class Room {
 	      File f = new File(filename);
 	      BufferedImage img = ImageIO.read(f);
 	      ImageUtil.flipImageVertically(img);
-	      tex = AWTTextureIO.newTexture(GLProfile.getDefault(), img, false);
-	      tex.setTexParameteri(gl, GL2.GL_TEXTURE_MAG_FILTER, GL2.GL_LINEAR);
-	      tex.setTexParameteri(gl, GL2.GL_TEXTURE_MIN_FILTER, GL2.GL_LINEAR);
+	      tex = AWTTextureIO.newTexture(GLProfile.getDefault(), img, true);
+	      tex.setTexParameteri(gl, GL2.GL_TEXTURE_MAG_FILTER, GL2.GL_LINEAR_MIPMAP_LINEAR);
+	      tex.setTexParameteri(gl, GL2.GL_TEXTURE_MIN_FILTER, GL2.GL_LINEAR_MIPMAP_LINEAR);
 	    }
 	    catch(Exception e) {
 	      System.out.println("Error loading texture " + filename); 

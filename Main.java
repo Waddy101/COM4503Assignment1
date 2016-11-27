@@ -95,7 +95,6 @@ public class Main extends JFrame implements GLEventListener, ActionListener, Ite
 	    canvas.addMouseMotionListener(this); // link mouse motion events
 
 	    FPSAnimator animator = new FPSAnimator(canvas, 30);
-	    //animator.add(canvas);
 	    animator.start();
     }
 
@@ -108,6 +107,13 @@ public class Main extends JFrame implements GLEventListener, ActionListener, Ite
 
     public void stateChanged(ChangeEvent e) {
 	    JSlider source = (JSlider)e.getSource();
+	    if (source == light1Slider) {
+	    	scene.setLightLevel(source.getValue(), 1);
+	    } else if (source == light2Slider) {
+	    	scene.setLightLevel(source.getValue(), 2);
+	    } else if (source == light3Slider) {
+	    	scene.setLightLevel(source.getValue(), 3);
+	    }
     }
 
     public void actionPerformed(ActionEvent e) {
