@@ -11,6 +11,11 @@ public class AnimationScene {
   public static final int ROBOT_Y_PARAM = 1;
   public static final int ROBOT_Z_PARAM = 2;
   public static final int ROBOT_Y_ROTATE_PARAM = 3;
+  public static final int ROBOT_X_ROTATE_PARAM = 4;
+  public static final int ROBOT_Z_ROTATE_PARAM = 5;
+  public static final int ROBOT_INNER_ARM_ANGLE = 6;
+  public static final int ROBOT_SHOULDER_ANGLE = 7;
+
   
   public static final int MAX_PARAMS = 10;
   private Anim[] param;
@@ -32,7 +37,15 @@ public class AnimationScene {
                                new double[]{0.0,0.0, 0.1,-5.0, 0.2, -5.0, 0.3,0.0, 0.5, 12.0, 0.6, 12.0, 0.7, 12.0, 0.8, 2.0, 1.0, 0.0});
     param[ROBOT_Y_ROTATE_PARAM] = create(0.0, 30.0, true, true,
                                new double[]{0.0,0.0, 0.1, 110, 0.2, 180, 0.5, 270, 0.7, 360, 0.8, 360, 0.9, 420, 1.0, 360});
-    numParams = ROBOT_Y_ROTATE_PARAM+1;
+    param[ROBOT_X_ROTATE_PARAM] = create(0.0, 30.0, true, true,
+                               new double[]{0.0,0.0, 0.1, 110, 0.2, 180, 0.5, 270, 0.7, 360, 0.8, 360, 0.9, 420, 1.0, 360});
+    param[ROBOT_Z_ROTATE_PARAM] = create(0.0, 30.0, true, true,
+                               new double[]{0.0,0.0, 0.1, 110, 0.2, 180, 0.5, 270, 0.7, 360, 0.8, 360, 0.9, 420, 1.0, 360});
+    param[ROBOT_INNER_ARM_ANGLE] = create(0.0, 30.0, true, true,
+                               new double[]{0.0,0.0, 0.1, 110, 0.2, 180, 0.5, 270, 0.7, 360, 0.8, 360, 0.9, 420, 1.0, 360});
+    param[ROBOT_SHOULDER_ANGLE] = create(0.0, 30.0, true, true,
+                               new double[]{0.0,0.0, 0.1, 110, 0.2, 180, 0.5, 270, 0.7, 360, 0.8, 360, 0.9, 420, 1.0, 360});
+    numParams = ROBOT_SHOULDER_ANGLE+1;
     localTime = 0;
     savedLocalTime = 0;
     repeatTime = 30;

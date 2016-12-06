@@ -59,7 +59,7 @@ public class Room {
     	ceiling = new Render(meshCeiling, ceilingTex);  
     	ceiling.initialiseDisplayList(gl, true);
     	Texture wallTex = loadTexture(gl, "wall.jpg"); 
-    	meshWall = ProceduralMeshFactory.createPlane(30, 30, 50, 50, 1, 1);
+    	meshWall = ProceduralMeshFactory.createPlane(30, 30, 50, 50, 2, 2);
     	wall1 = new Render(meshWall, wallTex);  
     	wall1.initialiseDisplayList(gl, true); 
     	wall2 = new Render(meshWall, wallTex);  
@@ -187,15 +187,17 @@ public class Room {
 	private Texture loadTexture(GL2 gl, String filename) {
 	    Texture tex = null;
 	    try {
-	      File f = new File(filename);
-	      BufferedImage img = ImageIO.read(f);
-	      ImageUtil.flipImageVertically(img);
-	      tex = AWTTextureIO.newTexture(GLProfile.getDefault(), img, true);
-	      tex.setTexParameteri(gl, GL2.GL_TEXTURE_MAG_FILTER, GL2.GL_LINEAR_MIPMAP_LINEAR);
-	      tex.setTexParameteri(gl, GL2.GL_TEXTURE_MIN_FILTER, GL2.GL_LINEAR_MIPMAP_LINEAR);
+	      	File f = new File(filename);
+	      	BufferedImage img = ImageIO.read(f);
+	      	ImageUtil.flipImageVertically(img);
+	      	tex = AWTTextureIO.newTexture(GLProfile.getDefault(), img, true);
+	      	tex.setTexParameteri(gl, GL2.GL_TEXTURE_MAG_FILTER, GL2.GL_LINEAR_MIPMAP_LINEAR);
+	      	tex.setTexParameteri(gl, GL2.GL_TEXTURE_MIN_FILTER, GL2.GL_LINEAR_MIPMAP_LINEAR);
+	      	tex.setTexParameteri(gl, GL2.GL_TEXTURE_WRAP_S, GL2.GL_REPEAT);
+			tex.setTexParameteri(gl, GL2.GL_TEXTURE_WRAP_T, GL2.GL_REPEAT);
 	    }
 	    catch(Exception e) {
-	      System.out.println("Error loading texture " + filename); 
+	      	System.out.println("Error loading texture " + filename); 
 	    }
 	    return tex;
 	}

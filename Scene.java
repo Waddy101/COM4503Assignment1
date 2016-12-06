@@ -101,12 +101,9 @@ public class Scene {
   		camera.view(glu);
   		doLights(gl);
   		room.doLights(gl, glut);
-      double robotXParam = animationScene.getParam(animationScene.ROBOT_X_PARAM);
-      double robotYParam = animationScene.getParam(animationScene.ROBOT_Y_PARAM);
-      double robotZParam = animationScene.getParam(animationScene.ROBOT_Z_PARAM);
-      double robotBodyRotateParam = animationScene.getParam(animationScene.ROBOT_Y_ROTATE_PARAM);
-      robot.doEyeLights(gl, robotXParam, robotYParam, robotZParam, robotBodyRotateParam);
-  		robot.drawRobot(gl, robotXParam, robotYParam, robotZParam, robotBodyRotateParam);
+      robot.setAnimParams(animationScene);
+      robot.doEyeLights(gl);
+  		robot.drawRobot(gl);
   		room.renderRoom(gl, rotate);
   	}
 

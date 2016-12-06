@@ -18,6 +18,7 @@ public class Robot {
  	private GLUT glut = new GLUT();
 	
 	private Light leftEye, rightEye;
+	private double x, y, z, rotateY, rotateX, rotateZ;
 
 	public Robot() {
 		float[] leftEyePos = {0.0f,0.0f,0.0f, 1};
@@ -29,10 +30,12 @@ public class Robot {
 	    rightEye.makeSpotlight(direction, 5f);
 	}
 
-	public void doEyeLights(GL2 gl, double x, double y, double z, double rotateY) {
+	public void doEyeLights(GL2 gl) {
 		gl.glPushMatrix();
 			gl.glTranslated(x, y, z);
 			gl.glRotated(rotateY, 0, 1, 0);
+			gl.glRotated(rotateX, 1, 0, 0);
+			gl.glRotated(rotateZ, 0, 0, 1);
 			gl.glPushMatrix();
 				gl.glRotated(30,1.0,1.0,0.0);
 	      		gl.glTranslated(0.0f,0.f,-1.0f);
@@ -46,13 +49,15 @@ public class Robot {
 		gl.glPopMatrix();
 	}
 
-	public void drawRobot(GL2 gl, double x, double y, double z, double rotateY) {
+	public void drawRobot(GL2 gl) {
 		setMaterial(gl,0,0,0,0,false);
 
 		gl.glPushMatrix();
 			//Robot Body
 			gl.glTranslated(x, y, z);
 			gl.glRotated(rotateY, 0, 1, 0);
+			gl.glRotated(rotateX, 1, 0, 0);
+			gl.glRotated(rotateZ, 0, 0, 1);
       		glut.glutSolidSphere(1.0f, 20, 20);
       		gl.glPushMatrix();
       			//Robot Eyes
@@ -221,6 +226,15 @@ public class Robot {
 		gl.glMaterialfv(GL2.GL_FRONT, GL2.GL_SPECULAR, matSpecular, specular);
 		gl.glMaterialfv(GL2.GL_FRONT, GL2.GL_SHININESS, matShininess, shininess);
 		gl.glMaterialfv(GL2.GL_FRONT, GL2.GL_EMISSION, matEmission, emission);
+	}
+
+	public void setAnimParams(AnimationScene animationScene) {
+		x = animationScene.getParam(animationScene.ROBOT_X_PARAM);
+      	y = animationScene.getParam(animationScene.ROBOT_Y_PARAM);
+      	z = animationScene.getParam(animationScene.ROBOT_Z_PARAM);
+      	rotateX = animationScene.getParam(animationScene.ROBOT_X_ROTATE_PARAM);
+      	rotateY = animationScene.getParam(animationScene.ROBOT_Y_ROTATE_PARAM);
+      	rotateZ = animationScene.getParam(animationScene.ROBOT_Z_ROTATE_PARAM);
 	}
 
 }
